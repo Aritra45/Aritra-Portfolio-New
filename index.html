@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aritra Deb | Software Engineer</title>
-
+<link rel="icon" href="images/circleProfile.png" type="image/x-icon">
   <!-- Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
@@ -1555,6 +1555,33 @@
     }
 
     /* ══════════════════════════════════════
+   TEXT HIGHLIGHT ANIMATION
+══════════════════════════════════════ */
+    .highlight-text {
+      position: relative;
+      display: inline;
+    }
+
+    .highlight-text::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: -4px;
+      right: -4px;
+      height: 100%;
+      background: var(--accent-glow);
+      border-radius: 4px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: -1;
+    }
+
+    .highlight-text.highlighted::before {
+      transform: scaleX(1);
+    }
+
+    /* ══════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════ */
     @media (max-width: 900px) {
@@ -1687,7 +1714,7 @@
           <p class="hero-title">// Software Engineer &amp; Tech Enthusiast</p>
           <p class="hero-desc">
             Skilled Software Engineer with an MCA from Techno International Newtown, Kolkata. Proficient in React JS,
-            Node JS, Firebase, C#, Python and Flutter — building user-centric digital experiences.
+            Node JS, Angular, Python and Flutter — building user-centric digital experiences.
           </p>
           <div class="hero-btns">
             <a href="#contact" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
@@ -1701,7 +1728,8 @@
                 class="fa-brands fa-github"></i></a>
             <a href="https://www.linkedin.com/in/aritra-deb-bb16131a3/" target="_blank" class="social-icon"
               title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="https://www.facebook.com/aritra.deb.94" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.facebook.com/aritra.deb.94" target="_blank" class="social-icon" title="Facebook"><i
+                class="fa-brands fa-facebook-f"></i></a>
             <!-- <a href="https://www.instagram.com/___badsah_bhai___/" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a> -->
           </div>
         </div>
@@ -1728,7 +1756,7 @@
     <!-- Stats row -->
     <div class="hero-stats">
       <div class="stat-item">
-        <span class="stat-num">3+</span>
+        <span class="stat-num">20+</span>
         <span class="stat-label">Projects</span>
       </div>
       <div class="stat-item">
@@ -1755,16 +1783,19 @@
       <div class="about-grid">
         <div class="about-text reveal-left">
           <p>
-            I'm a passionate Software Engineer with a Master's in Computer Application from Techno International
-            Newtown, Kolkata. I love building web apps that are both functional and visually compelling.
+            I'm a passionate Software Engineer with a Master's in Computer Application from
+            <span class="highlight-text">Techno International Newtown, Kolkata</span>.
+            I love building web apps that are both functional and visually compelling.
           </p>
           <p>
-            Currently working as a Software Engineer at <strong style="color:var(--accent)">Swabhav Venturelabs,
-              Mumbai</strong>, where I work with C#, Flutter, and Angular to build innovative solutions.
+            Currently working as a Software Engineer at
+            <strong style="color:var(--accent)">Swabhav Venturelabs, Mumbai</strong>,
+            where I work with C#, Flutter, and Angular to build innovative solutions.
           </p>
           <p>
-            I've built projects ranging from an EV Charging Station Finder App to a Retail Management System — always
-            experimenting, always learning.
+            I've built projects ranging from an
+            <span class="highlight-text">EV Charging Station Finder App</span> to a
+            <span class="highlight-text">Retail Management System</span> — always experimenting, always learning.
           </p>
           <div class="about-skills">
             <span class="skill-tag">React JS</span>
@@ -1833,7 +1864,7 @@
               software solutions with a focus on performance and user experience.
             </p>
             <div class="timeline-tags">
-              <span class="t-tag">C#</span>
+              <span class="t-tag">.NET</span>
               <span class="t-tag">Flutter</span>
               <span class="t-tag">Angular</span>
             </div>
@@ -2125,7 +2156,8 @@
             </div>
             <div class="form-group">
               <label for="email">Your Email</label>
-              <input type="email" id="email" name="email" class="form-input" placeholder="aritradeb45@example.com" required>
+              <input type="email" id="email" name="email" class="form-input" placeholder="aritradeb45@example.com"
+                required>
             </div>
             <div class="form-group">
               <label for="subject">Subject</label>
@@ -2195,13 +2227,37 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">&lt;Aritra Deb /&gt;</div>
-    <p class="footer-text">Built with ❤️ using HTML, Tailwind CSS, JS &amp; Firebase · © 2025</p>
+    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved | This portfolio is made with
+            ❤️ by <a
+              href="https://www.linkedin.com/in/aritra-deb-bb16131a3/" target="_blank">Aritra Deb</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
   </footer>
 
   <!-- SCROLL TO TOP -->
   <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i
       class="fa-solid fa-arrow-up"></i></button>
 
+
+  <script>
+    // ── HIGHLIGHT ANIMATION ──────────────────
+    const highlightObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(() => {
+            e.target.classList.add('highlighted');
+          }, 400);
+          highlightObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.8 });
+
+    document.querySelectorAll('.highlight-text').forEach(el => {
+      highlightObserver.observe(el);
+    });
+  </script>
 
   <script>
     // ── CONTACT FORM AJAX ────────────────────
@@ -2481,7 +2537,7 @@
     });
 
     // ── TYPEWRITER HERO ──────────────────────
-    const phrases = ['Software Engineer', 'React Developer', 'Flutter Dev', 'Tech Enthusiast'];
+    const phrases = ['Software Engineer', 'FullStack', 'Flutter Dev', 'Tech Enthusiast'];
     let pi = 0, ci = 0, typing = true;
     const titleEl = document.querySelector('.hero-title');
     function typewrite() {
