@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aritra Deb — Software Engineer</title>
+  <link rel="icon" type="image/jpeg" href="images/circleProfile.png">
+  <link rel="apple-touch-icon" href="images/circleProfile.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
@@ -261,6 +263,23 @@
     .btn-grad:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 30px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-bird-icon-wrap {
+      width: 26px;
+      height: 26px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    .btn-bird-icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+      /* same fix as the overlay bird: the source artwork sits low in its own
+         300x300 canvas, so zoom in and nudge up to recenter and fill the box */
+      transform: translateY(-8%) scale(2);
     }
 
     .btn-outline {
@@ -1499,37 +1518,22 @@
     .bird-wrap {
       position: absolute;
       left: 50%;
-      top: 58px;
-      width: 78px;
-      margin-left: -39px;
+      top: 40px;
+      width: 100px;
+      height: 100px;
+      margin-left: -50px;
       z-index: 4;
       opacity: 0;
       transform: translate(-230px, 30px) scale(0.75);
     }
 
-    .bird-svg {
+    .bird-lottie {
       display: block;
       width: 100%;
-      height: auto;
-      overflow: visible;
-    }
-
-    .bird-body {
-      fill: #E879C9;
-    }
-
-    .bird-wing {
-      fill: #C084FC;
-      transform-box: fill-box;
-      transform-origin: 88% 78%;
-    }
-
-    .bird-beak {
-      fill: #FBBF24;
-    }
-
-    .bird-eye {
-      fill: #241B3B;
+      height: 100%;
+      /* the source Lottie's artwork sits low in its own 300x300 canvas (roughly
+         the bottom 40% of it) — zoom in and nudge up to recenter and fill the box */
+      transform: translateY(-8px) scale(2);
     }
 
     /* ----- play sequence (added only once the overlay gets .play) ----- */
@@ -1565,10 +1569,6 @@
 
     .send-anim-overlay.play .bird-wrap {
       animation: birdFlight 1.7s ease-in-out 1.95s forwards;
-    }
-
-    .send-anim-overlay.play .bird-wing {
-      animation: birdFlap 0.16s ease-in-out 1.95s 11;
     }
 
     @keyframes letterIn {
@@ -1645,17 +1645,6 @@
       }
     }
 
-    @keyframes birdFlap {
-
-      0%,
-      100% {
-        transform: rotate(0deg) scaleY(1);
-      }
-
-      50% {
-        transform: rotate(-22deg) scaleY(0.7);
-      }
-    }
   </style>
 </head>
 
@@ -1679,12 +1668,8 @@
         </svg>
       </div>
       <div class="bird-wrap" id="birdWrap">
-        <svg class="bird-svg" viewBox="0 0 100 70">
-          <path class="bird-wing" d="M55 32 Q30 6 6 22 Q32 26 48 38 Z"></path>
-          <ellipse class="bird-body" cx="58" cy="34" rx="22" ry="13"></ellipse>
-          <path class="bird-beak" d="M78 32 L94 29 L78 39 Z"></path>
-          <circle class="bird-eye" cx="64" cy="29" r="2.2"></circle>
-        </svg>
+        <lottie-player class="bird-lottie" id="birdLottie" src="images/Cute%20Bird%20Flapping%20Animation.json"
+          background="transparent" speed="1" loop autoplay></lottie-player>
       </div>
     </div>
     <div class="send-anim-caption">Flying your message to Aritra…</div>
@@ -1846,12 +1831,12 @@
             </div>
             <div class="field"><textarea id="message" name="message" placeholder="Your message" required></textarea>
             </div>
-            <button type="submit" class="btn btn-grad">Send Message <svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16"
-                height="16">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg></button>
+            <button type="submit" class="btn btn-grad">Send Message
+              <span class="btn-bird-icon-wrap">
+                <lottie-player class="btn-bird-icon" src="images/Cute%20Bird%20Flapping%20Animation.json"
+                  background="transparent" speed="1" loop autoplay></lottie-player>
+              </span>
+            </button>
           </form>
         </div>
         <div class="contact-info-side">
@@ -2376,6 +2361,9 @@
       }
     });
   </script>
+
+  <!-- lottie-player web component, used by the send-message bird animation -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <!-- ══════════════════════════════════
      FIREBASE — star rating + visitor count
