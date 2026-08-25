@@ -1364,6 +1364,298 @@
         transform: translateY(0);
       }
     }
+
+    /* ---------- send-message envelope + bird animation ---------- */
+    .send-anim-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 18px;
+      background: rgba(14, 10, 26, 0.72);
+      backdrop-filter: blur(6px);
+    }
+
+    html[data-theme="light"] .send-anim-overlay {
+      background: rgba(246, 243, 252, 0.85);
+    }
+
+    .send-anim-overlay.show {
+      display: flex;
+    }
+
+    .send-anim-scene {
+      position: relative;
+      width: 260px;
+      height: 220px;
+    }
+
+    @media (max-width: 420px) {
+      .send-anim-scene {
+        transform: scale(0.82);
+      }
+    }
+
+    .send-anim-caption {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      animation: captionPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes captionPulse {
+
+      0%,
+      100% {
+        opacity: 0.55;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* the letter */
+    .letter-card {
+      position: absolute;
+      left: 50%;
+      top: 6px;
+      width: 148px;
+      height: 108px;
+      background: linear-gradient(160deg, #fdfbff, #ede4fb);
+      border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(139, 92, 246, 0.4);
+      padding: 13px 13px;
+      transform: translate(-50%, -26px) scale(0.4);
+      opacity: 0;
+      z-index: 3;
+      overflow: hidden;
+    }
+
+    .letter-text-line {
+      font-family: var(--font-body);
+      color: #3E2C63;
+      line-height: 1.35;
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .letter-text-line.greet {
+      font-size: 9.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .letter-text-line.msg {
+      font-size: 8px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .letter-text-line.sign {
+      font-size: 8.5px;
+      font-weight: 600;
+      font-style: italic;
+      opacity: 0.85;
+      text-align: right;
+    }
+
+    /* the envelope */
+    .envelope-wrap {
+      position: absolute;
+      left: 50%;
+      top: 118px;
+      width: 170px;
+      transform: translate(-50%, 0);
+      perspective: 320px;
+      z-index: 2;
+    }
+
+    .envelope-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .env-back {
+      fill: #A876F0;
+    }
+
+    .env-flap {
+      fill: #C084FC;
+      transform-box: fill-box;
+      transform-origin: 50% 0%;
+    }
+
+    /* the bird */
+    .bird-wrap {
+      position: absolute;
+      left: 50%;
+      top: 58px;
+      width: 78px;
+      margin-left: -39px;
+      z-index: 4;
+      opacity: 0;
+      transform: translate(-230px, 30px) scale(0.75);
+    }
+
+    .bird-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .bird-body {
+      fill: #E879C9;
+    }
+
+    .bird-wing {
+      fill: #C084FC;
+      transform-box: fill-box;
+      transform-origin: 88% 78%;
+    }
+
+    .bird-beak {
+      fill: #FBBF24;
+    }
+
+    .bird-eye {
+      fill: #241B3B;
+    }
+
+    /* ----- play sequence (added only once the overlay gets .play) ----- */
+    .send-anim-overlay.play .letter-card {
+      animation: letterIn 0.5s cubic-bezier(.34, 1.56, .64, 1) forwards,
+        letterIntoEnvelope 0.55s ease-in 1.3s forwards;
+    }
+
+    .send-anim-overlay.play .letter-text-line {
+      animation: textReveal 0.4s steps(24, end) forwards;
+    }
+
+    .send-anim-overlay.play .letter-text-line.greet {
+      animation-delay: 0.2s;
+    }
+
+    .send-anim-overlay.play .letter-text-line.msg {
+      animation-duration: 0.6s;
+      animation-delay: 0.42s;
+    }
+
+    .send-anim-overlay.play .letter-text-line.sign {
+      animation-delay: 1.02s;
+    }
+
+    .send-anim-overlay.play .env-flap {
+      animation: flapClose 0.4s ease-in 1.75s forwards;
+    }
+
+    .send-anim-overlay.play .envelope-wrap {
+      animation: envelopeFlyOff 0.95s cubic-bezier(.55, 0, .85, .35) 2.65s forwards;
+    }
+
+    .send-anim-overlay.play .bird-wrap {
+      animation: birdFlight 1.7s ease-in-out 1.95s forwards;
+    }
+
+    .send-anim-overlay.play .bird-wing {
+      animation: birdFlap 0.16s ease-in-out 1.95s 11;
+    }
+
+    @keyframes letterIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -26px) scale(0.4);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+    }
+
+    @keyframes textReveal {
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes letterIntoEnvelope {
+      to {
+        opacity: 0;
+        transform: translate(-50%, 96px) scale(0.45);
+      }
+    }
+
+    @keyframes flapClose {
+      from {
+        transform: rotateX(0deg);
+      }
+
+      to {
+        transform: rotateX(180deg);
+      }
+    }
+
+    @keyframes envelopeFlyOff {
+      0% {
+        transform: translate(-50%, 0) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+
+      12% {
+        transform: translate(-50%, -12px) scale(1.06) rotate(-2deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(calc(-50% + 260px), -230px) scale(0.32) rotate(18deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes birdFlight {
+      0% {
+        opacity: 0;
+        transform: translate(-230px, 30px) scale(0.75);
+      }
+
+      22% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+
+      58% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(280px, -240px) scale(0.4) rotate(14deg);
+      }
+    }
+
+    @keyframes birdFlap {
+
+      0%,
+      100% {
+        transform: rotate(0deg) scaleY(1);
+      }
+
+      50% {
+        transform: rotate(-22deg) scaleY(0.7);
+      }
+    }
   </style>
 </head>
 
@@ -1372,6 +1664,31 @@
   <div class="float-icons" id="floatIcons" aria-hidden="true"></div>
 
   <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="send-anim-overlay" id="sendAnim" aria-hidden="true">
+    <div class="send-anim-scene">
+      <div class="letter-card" id="letterCard">
+        <div class="letter-text-line greet">Dear Aritra,</div>
+        <div class="letter-text-line msg" id="letterMsg">Looking forward to connecting!</div>
+        <div class="letter-text-line sign" id="letterSign">— A visitor</div>
+      </div>
+      <div class="envelope-wrap" id="envelopeWrap">
+        <svg class="envelope-svg" viewBox="0 0 140 90">
+          <rect x="4" y="20" width="132" height="66" rx="8" class="env-back"></rect>
+          <polygon points="4,20 70,60 136,20" class="env-flap" id="envFlap"></polygon>
+        </svg>
+      </div>
+      <div class="bird-wrap" id="birdWrap">
+        <svg class="bird-svg" viewBox="0 0 100 70">
+          <path class="bird-wing" d="M55 32 Q30 6 6 22 Q32 26 48 38 Z"></path>
+          <ellipse class="bird-body" cx="58" cy="34" rx="22" ry="13"></ellipse>
+          <path class="bird-beak" d="M78 32 L94 29 L78 39 Z"></path>
+          <circle class="bird-eye" cx="64" cy="29" r="2.2"></circle>
+        </svg>
+      </div>
+    </div>
+    <div class="send-anim-caption">Flying your message to Aritra…</div>
+  </div>
 
   <div id="themeWipe" aria-hidden="true"></div>
 
@@ -1956,6 +2273,8 @@
 
     /* projects */
     const projects = [
+      { name: 'GS Marketing Tech Ecosystem', date: '2025 – Present', desc: 'Full-stack exhibition & trade fair management platform spanning 2 backends, 3 web portals and 3 mobile apps for visitors, staff and admin teams — built as a Modular Monolith with Clean Architecture and CQRS. Features real-time admin dashboards with embedded Power BI analytics, QR-based venue entry, and integrated AuroPay payments, AiSensy WhatsApp and SendGrid notifications via Hangfire background jobs.', tags: ['.NET 10/6', 'Angular', 'Flutter', 'EF Core', 'SignalR', 'Power BI Embedded'] },
+      { name: 'BTL Agraeta', date: '2025', desc: 'Production web and mobile platform enabling direct interaction between 1500+ company stakeholders and 50+ salespersons, with sales tracking, demand-supply reporting and role-based access control. Enhanced with Tally integration for stock management and product flow tracking.', tags: ['C#', 'Angular', 'Flutter', 'SQL Server'] },
       { name: 'EV Charging Station Finder', date: '2024', desc: 'Real-time EV charging station locator with navigation integration, reducing range anxiety for drivers.', tags: ['React Native', 'Firebase', 'Places API'], github: 'https://github.com/Aritra45/EV-Charging-Station-App' },
       { name: 'Detritus Marketplace', date: '2024', desc: 'Peer-to-peer marketplace for pre-loved items, promoting a circular economy.', tags: ['React', 'Firebase', 'Nodemailer'], github: 'https://github.com/Aritra45/detritus', live: 'https://detritusofficial.vercel.app' },
       { name: 'Retail Management System', date: '2023', desc: 'Dynamic pricing and billing system with product search and multi-user support.', tags: ['React', 'MongoDB', 'Express'], github: 'https://github.com/Aritra45/POS-System' },
@@ -2007,7 +2326,7 @@
     }
 
     /* contact form -> Formspree */
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const form = e.target;
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -2016,29 +2335,45 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
 
-      fetch('https://formspree.io/f/mnnaavgj', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(form),
-      })
-        .then(response => {
-          if (response.ok) {
-            showToast('success', 'Message sent!', `Thanks${name ? ' ' + name : ''} — I'll get back to you within a day.`);
-            form.reset();
-          } else {
-            return response.json().catch(() => null).then(data => {
-              const errMsg = (data && data.errors && data.errors.map(er => er.message).join(', ')) || 'Something went wrong. Please try again.';
-              showToast('error', "Couldn't send message", errMsg);
-            });
-          }
-        })
-        .catch(() => {
-          showToast('error', 'Network error', 'Please check your connection and try again.');
-        })
-        .finally(() => {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalLabel;
-        });
+      // letter -> envelope -> bird-flies-off animation, gating the toast so the
+      // full sequence always plays out before the user sees the result
+      const sendAnim = document.getElementById('sendAnim');
+      const playAnim = !!sendAnim && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const ANIM_MS = 3700;
+      if (playAnim) {
+        const messageVal = document.getElementById('message').value.trim();
+        document.getElementById('letterMsg').textContent = messageVal || 'Looking forward to connecting!';
+        document.getElementById('letterSign').textContent = '— ' + (name.trim() || 'A visitor');
+        sendAnim.classList.add('show', 'play');
+      }
+      const minWait = playAnim ? new Promise(res => setTimeout(res, ANIM_MS)) : Promise.resolve();
+
+      try {
+        const [response] = await Promise.all([
+          fetch('https://formspree.io/f/mnnaavgj', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form),
+          }),
+          minWait,
+        ]);
+
+        if (response.ok) {
+          showToast('success', 'Message sent!', `Thanks${name ? ' ' + name : ''} — I'll get back to you within a day.`);
+          form.reset();
+        } else {
+          const data = await response.json().catch(() => null);
+          const errMsg = (data && data.errors && data.errors.map(er => er.message).join(', ')) || 'Something went wrong. Please try again.';
+          showToast('error', "Couldn't send message", errMsg);
+        }
+      } catch {
+        await minWait; // fetch may reject before the animation finishes — let it play out
+        showToast('error', 'Network error', 'Please check your connection and try again.');
+      } finally {
+        if (playAnim) sendAnim.classList.remove('show', 'play');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+      }
     });
   </script>
 
