@@ -36,7 +36,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   /* fallback wipe (browsers without View Transitions API) */
   #themeWipe {
@@ -435,7 +435,7 @@
     margin-bottom: 10px;
   }
   .footer-visitors svg { width: 14px; height: 14px; }
-  main { position: relative; z-index: 1; }
+  main { position: relative; z-index: 1; overflow-x: hidden; }
 
   /* ambient tech-logo icons — small, faint, endlessly floating from bottom to top */
   .float-icons { position: fixed; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
