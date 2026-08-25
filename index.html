@@ -638,7 +638,7 @@
             <div class="field"><input type="email" id="email" name="email" placeholder="Your email" required></div>
           </div>
           <div class="field"><textarea id="message" name="message" placeholder="Your message" required></textarea></div>
-          <button type="submit" class="btn btn-grad">Send Message →</button>
+          <button type="submit" class="btn btn-grad">Send Message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
         </form>
       </div>
       <div class="contact-info-side">
@@ -867,6 +867,8 @@
   const ICON_BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>';
   const ICON_BRIEFCASE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>';
   const ICON_AWARD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>';
+  const ICON_EXTERNAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>';
+  const ICON_CODE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>';
   const certs = [
     { icon: ICON_BOOK, title: 'Privacy and Security in Online Social Media', org: 'NPTEL', date: '2024', link: 'https://rb.gy/vz7vih' },
     { icon: ICON_BRIEFCASE, title: 'Web Development Internship', org: 'Unified Mentor Private Limited', link: 'https://rb.gy/xjcc8l' },
@@ -883,7 +885,7 @@
     card.className = 'service-card';
     card.style.setProperty('--i', i);
     const sub = c.org ? c.org + (c.date ? ' · ' + c.date : '') : (c.date || '');
-    const link = c.link ? `<div class="project-links"><a href="${c.link}" target="_blank" rel="noopener">↗ View Certificate</a></div>` : '';
+    const link = c.link ? `<div class="project-links"><a href="${c.link}" target="_blank" rel="noopener">${ICON_EXTERNAL} View Certificate</a></div>` : '';
     card.innerHTML = `<div class="service-icon">${c.icon}</div><h3>${c.title}</h3><p>${sub}</p>${link}`;
     certsGrid.appendChild(card);
   });
@@ -1015,8 +1017,8 @@
     card.style.setProperty('--i', i);
     card.style.setProperty('--dir', i % 2 === 0 ? -1 : 1); // left column from the left, right column from the right
     let links = '';
-    if (p.live) links += `<a href="${p.live}" target="_blank" rel="noopener">↗ Live Demo</a>`;
-    if (p.github) links += `<a href="${p.github}" target="_blank" rel="noopener">⌥ Code</a>`;
+    if (p.live) links += `<a href="${p.live}" target="_blank" rel="noopener">${ICON_EXTERNAL} Live Demo</a>`;
+    if (p.github) links += `<a href="${p.github}" target="_blank" rel="noopener">${ICON_CODE} Code</a>`;
     card.innerHTML = `
       <div class="project-top"><h3>${p.name}</h3>${p.date ? `<span class="project-date">${p.date}</span>` : ''}</div>
       <p>${p.desc}</p>
@@ -1057,7 +1059,7 @@
     const form = e.target;
     const submitBtn = form.querySelector('button[type="submit"]');
     const name = document.getElementById('name').value;
-    const originalLabel = submitBtn.textContent;
+    const originalLabel = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
@@ -1082,7 +1084,7 @@
       })
       .finally(() => {
         submitBtn.disabled = false;
-        submitBtn.textContent = originalLabel;
+        submitBtn.innerHTML = originalLabel;
       });
   });
 </script>
