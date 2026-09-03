@@ -1338,13 +1338,77 @@
       }
     }
 
+    /* shooting stars — dark mode only, spawned from JS every 10s */
+    .shooting-stars {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    html[data-theme="dark"] .shooting-stars {
+      opacity: 1;
+    }
+
+    .shooting-star {
+      position: absolute;
+      top: var(--sy, 10%);
+      left: var(--sx, 20%);
+      width: 130px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85) 70%, #fff);
+      border-radius: 2px;
+      opacity: 0;
+      transform-origin: left center;
+      rotate: var(--angle, 25deg);
+      translate: 0 0;
+      animation: shoot-star var(--dur, 1.1s) linear forwards;
+    }
+
+    .shooting-star::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      margin-top: -2px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.85);
+    }
+
+    @keyframes shoot-star {
+      0% {
+        opacity: 0;
+        translate: 0 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        translate: var(--tx, 260px) var(--ty, 140px);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.001s !important;
         transition-duration: 0.001s !important;
       }
 
-      .float-icons {
+      .float-icons,
+      .shooting-stars {
         display: none;
       }
     }
@@ -1732,6 +1796,8 @@
   </button>
 
   <div class="float-icons" id="floatIcons" aria-hidden="true"></div>
+
+  <div class="shooting-stars" id="shootingStars" aria-hidden="true"></div>
 
   <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
@@ -2186,6 +2252,32 @@
         }, WIPE_MS);
       }, PULL_MS + 80);
     });
+
+    /* shooting stars — dark mode only, one every 10s, streaking diagonally
+       across a random patch of sky */
+    const shootingStars = document.getElementById('shootingStars');
+    function spawnShootingStar() {
+      if (!shootingStars) return;
+      if (root.getAttribute('data-theme') !== 'dark') return;
+      if (reduceMotionMQ.matches) return;
+
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      const angle = 20 + Math.random() * 15; // 20°–35° down-right
+      const distance = 260 + Math.random() * 160; // px travelled
+      const rad = angle * Math.PI / 180;
+      const dur = (0.9 + Math.random() * 0.5);
+      star.style.setProperty('--sx', (Math.random() * 70 + 5) + 'vw'); // starts in the upper-left 3/4 of the screen
+      star.style.setProperty('--sy', (Math.random() * 35) + 'vh');
+      star.style.setProperty('--angle', angle + 'deg');
+      star.style.setProperty('--tx', (Math.cos(rad) * distance).toFixed(0) + 'px');
+      star.style.setProperty('--ty', (Math.sin(rad) * distance).toFixed(0) + 'px');
+      star.style.setProperty('--dur', dur + 's');
+      shootingStars.appendChild(star);
+      setTimeout(() => star.remove(), dur * 1000 + 100);
+    }
+    setTimeout(spawnShootingStar, 2000);
+    setInterval(spawnShootingStar, 10000);
 
     /* scroll reveal */
     const io = new IntersectionObserver((entries) => {
