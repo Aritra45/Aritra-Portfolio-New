@@ -574,6 +574,48 @@
       justify-content: center;
     }
 
+    /* hangs the avatar card from a single point: two ropes run from its
+       top corners up to one shared nail, like a picture frame on wires */
+    .frame-hang {
+      position: relative;
+      width: max-content;
+      margin: 0 auto;
+      transform-origin: top center;
+      animation: lampSway 4.5s ease-in-out infinite;
+    }
+
+    .frame-hang:hover,
+    .frame-hang:focus-within {
+      animation-play-state: paused;
+    }
+
+    .frame-ropes {
+      display: block;
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+    }
+
+    .frame-ropes .rope-line {
+      fill: none;
+      stroke: url(#ropeGrad);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .frame-ropes .rope-stop-top {
+      stop-color: var(--card-border);
+    }
+
+    .frame-ropes .rope-stop-bottom {
+      stop-color: var(--text-dim);
+    }
+
+    .frame-ropes .rope-nail {
+      fill: #8a8a8a;
+      stroke: #5c5c5c;
+      stroke-width: 1;
+    }
+
     .avatar-card {
       width: 260px;
       height: 320px;
@@ -1897,8 +1939,20 @@
         </div>
       </div>
       <div class="hero-visual reveal">
-        <div class="avatar-card">
-          <div class="avatar-inner"><img src="images/profile1.jpg" alt="Aritra Deb"></div>
+        <div class="frame-hang">
+          <svg class="frame-ropes" viewBox="0 0 260 70" width="260" height="70" aria-hidden="true">
+            <defs>
+              <linearGradient id="ropeGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" class="rope-stop-top"></stop>
+                <stop offset="1" class="rope-stop-bottom"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M34,70 Q82,44 130,9 Q178,44 226,70" class="rope-line"></path>
+            <circle cx="130" cy="9" r="4.5" class="rope-nail"></circle>
+          </svg>
+          <div class="avatar-card">
+            <div class="avatar-inner"><img src="images/profile1.jpg" alt="Aritra Deb"></div>
+          </div>
         </div>
       </div>
     </section>
